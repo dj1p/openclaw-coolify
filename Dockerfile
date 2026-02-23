@@ -76,12 +76,13 @@ RUN --mount=type=cache,target=/data/.bun/install/cache \
     bun install -g vercel https://github.com/tobi/qmd && \
     bun pm -g untrusted
 
-# marp-cli separate, no cache mount (avoids integrity check failures)
-RUN bun install -g @marp-team/marp-cli
+# marp-cli via npm (avoids bun/puppeteer integrity issues)
+RUN npm install -g @marp-team/marp-cli
 
 RUN --mount=type=cache,target=/data/.bun/install/cache \
     bun install -g @openai/codex @google/gemini-cli opencode-ai @steipete/summarize @hyperbrowser/agent clawhub
 
+    
 # Ensure global npm bin is in PATH
 ENV PATH="/usr/local/bin:/usr/local/lib/node_modules/.bin:${PATH}"
 
