@@ -95,6 +95,7 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Claude + Kimi
 RUN curl -fsSL https://claude.ai/install.sh | bash && \
+    export PATH="/root/.local/bin:$PATH" && \
     curl -L https://code.kimi.com/install.sh | bash
 
 # Make sure uv and other local bins are available
