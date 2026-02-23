@@ -70,8 +70,13 @@ ENV OPENCLAW_BETA=${OPENCLAW_BETA} \
 
 # Bun global installs (with cache)
 RUN --mount=type=cache,target=/data/.bun/install/cache \
-    bun install -g vercel @marp-team/marp-cli https://github.com/tobi/qmd && \
-    bun pm -g untrusted && \
+    bun install -g vercel https://github.com/tobi/qmd && \
+    bun pm -g untrusted
+
+# marp-cli separate, no cache mount (avoids integrity check failures)
+RUN bun install -g @marp-team/marp-cli
+
+RUN --mount=type=cache,target=/data/.bun/install/cache \
     bun install -g @openai/codex @google/gemini-cli opencode-ai @steipete/summarize @hyperbrowser/agent clawhub
 
 # Ensure global npm bin is in PATH
